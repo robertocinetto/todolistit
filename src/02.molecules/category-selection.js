@@ -8,11 +8,14 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 import { connect } from "react-redux";
-import { setSelectedCategory } from "../redux/todo/todo.actions";
+import {
+  setSelectedCategory,
+  setCategoriesList,
+} from "../redux/todo/todo.actions";
 
 const CategorySelection = (props) => {
   async function handleChange(event) {
-    setSelectedCategory(event.target.value);
+    await props.setSelectedCategory(event.target.value);
   }
 
   // retrieve the categories from the total collection of todos of the current user
@@ -28,19 +31,19 @@ const CategorySelection = (props) => {
         <FormControlLabel
           key={index.toString()}
           value={category}
-          control={<Radio />}
+          control={<Radio color="primary" />}
           label={category}
         />
       );
     }
   );
 
+  (async () => await props.setCategoriesList([...new Set(mixedCategories)]))();
+
   return (
     <Card variant="outlined">
       <CardContent>
-        <Typography variant="h3" align="center">
-          Lists
-        </Typography>
+        <Typography variant="h3">Lists</Typography>
         <RadioGroup
           aria-label="gender"
           name="gender1"
@@ -61,6 +64,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   setSelectedCategory: (category) => dispatch(setSelectedCategory(category)),
+  setCategoriesList: (categoriesList) =>
+    dispatch(setCategoriesList(categoriesList)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategorySelection);

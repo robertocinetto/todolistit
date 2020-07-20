@@ -148,14 +148,7 @@ class Home extends React.Component {
             </CardContent>
           </Card>
           <FormControlLabel
-            control={
-              <Switch
-                // checked={state.checkedB}
-                // onChange={handleChange}
-                name="checkedB"
-                color="primary"
-              />
-            }
+            control={<Switch name="checkedB" color="primary" />}
             label="Primary"
           />
         </Grid>

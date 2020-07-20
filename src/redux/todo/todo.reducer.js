@@ -3,23 +3,34 @@ import { TodoActionTypes } from "./todo.types";
 const INITIAL_STATE = {
   todos: [],
   categorySelected: "default",
+  categoriesList: [],
+  modalStatus: false,
 };
 
 const todoReducer = (state = INITIAL_STATE, action) => {
-  console.log(action.type);
   switch (action.type) {
     case TodoActionTypes.UPDATE_TODOS:
-      console.log("update todo");
       return {
         ...state,
         todos: action.payload,
       };
 
     case TodoActionTypes.SET_TODOS_CATEGORY:
-      console.log("set category");
       return {
         ...state,
         categorySelected: action.payload,
+      };
+
+    case TodoActionTypes.SET_CATEGORIES_LIST:
+      return {
+        ...state,
+        categoriesList: action.payload,
+      };
+
+    case TodoActionTypes.SET_NEW_TODO_MODAL_OPEN:
+      return {
+        ...state,
+        modalStatus: action.payload,
       };
 
     default:
