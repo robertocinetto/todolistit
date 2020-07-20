@@ -1,6 +1,7 @@
 import React from 'react'
 import { styled } from '@material-ui/core/styles'
 import MuiPaper from '@material-ui/core/Paper'
+import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 
 import Header from '../03.organisms/header'
@@ -14,9 +15,13 @@ const Paper = styled(MuiPaper)({
 function Base({ children }) {
   return (
     <Paper>
-      <Header />
-      <Grid container>{children}</Grid>
-      <Footer />
+      <Container fixed>
+        <Grid container direction="column" alignItems="center">
+          <Header />
+          {children}
+          <Footer />
+        </Grid>
+      </Container>
     </Paper>
   )
 }

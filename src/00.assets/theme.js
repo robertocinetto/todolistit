@@ -1,12 +1,12 @@
-import { vars } from './variables'
-import { createMuiTheme } from '@material-ui/core'
-import WebFont from 'webfontloader'
+import { vars } from "./variables";
+import { createMuiTheme } from "@material-ui/core";
+import WebFont from "webfontloader";
 
 WebFont.load({
   google: {
-    families: ['Exo 2:300,400,600', 'sans-serif'],
+    families: ["Exo 2:300,400,600", "sans-serif"],
   },
-})
+});
 
 function getTheme(theme) {
   return createMuiTheme({
@@ -29,42 +29,50 @@ function getTheme(theme) {
     palette: {
       type: theme.paletteType,
       primary: {
-        main: '#6C00D0',
+        main: "#6C00D0",
       },
       background: {
-        paper: theme.paletteType === 'light' ? 'inherit' : vars.pageBg,
+        paper: theme.paletteType === "light" ? "inherit" : vars.pageBg,
       },
     },
     overrides: {
       MuiPaper: {
         root: {
-          display: 'flex',
+          display: "flex",
         },
       },
       MuiFormControl: {
         root: {
-          marginBottom: '20px',
+          marginBottom: "20px",
         },
       },
       MuiInputLabel: {
         root: {
-          color: '#fff',
-          '&$focused': {
-            color: '#fff',
+          color: "#fff",
+          "&$focused": {
+            color: "#fff",
           },
         },
       },
       MuiButton: {
         root: {
-          marginBottom: '20px',
+          marginBottom: "20px",
+        },
+      },
+      MuiCard: {
+        root: {
+          width: "100%",
+          // padding: '20px',
+          borderRadius: "4px",
+          backgroundColor: vars.contentBg,
         },
       },
     },
-  })
+  });
 }
 
 const theme = getTheme({
-  paletteType: 'dark',
-})
+  paletteType: "dark",
+});
 
-export default theme
+export default theme;

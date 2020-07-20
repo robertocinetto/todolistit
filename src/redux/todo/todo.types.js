@@ -1,0 +1,4 @@
+export const TodoActionTypes = {
+  UPDATE_TODOS: "UPDATE_TODOS",
+  SET_TODOS_CATEGORY: "SET_TODOS_CATEGORY",
+};

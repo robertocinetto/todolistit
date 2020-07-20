@@ -1,82 +1,82 @@
-import React from 'react'
-import { vars } from '../00.assets/variables'
-import Simple from '../04.templates/simple'
+import React from "react";
+import { vars } from "../00.assets/variables";
+import Simple from "../04.templates/simple";
 
-import { signInWithGoogle } from '../firebase/firebase.utils'
-import { auth, createUserProfileDocument } from '../firebase/firebase.utils'
+import { connect } from "react-redux";
+
+import { signInWithGoogle } from "../firebase/firebase.utils";
+import { auth, createUserProfileDocument } from "../firebase/firebase.utils";
 
 //Material UI imports
-import { styled } from '@material-ui/core/styles'
-import MuiGrid from '@material-ui/core/Grid'
-import MuiCard from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
-import TextField from '@material-ui/core/TextField'
-import Button from '@material-ui/core/Button'
-import MuiFormControlLabel from '@material-ui/core/FormControlLabel'
-import Checkbox from '@material-ui/core/Checkbox'
-import Typography from '@material-ui/core/Typography'
-import Switch from '@material-ui/core/Switch'
+import { styled } from "@material-ui/core/styles";
+import MuiGrid from "@material-ui/core/Grid";
+import MuiCard from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import MuiFormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import Typography from "@material-ui/core/Typography";
+import Switch from "@material-ui/core/Switch";
 
-import { ReactComponent as Logo } from '../00.assets/logo.svg'
+import { ReactComponent as Logo } from "../00.assets/logo.svg";
 
 const Card = styled(MuiCard)({
-  maxWidth: '350px',
-  padding: '20px',
-  borderRadius: '4px',
+  maxWidth: "350px",
+  padding: "20px",
+  borderRadius: "4px",
   backgroundColor: vars.contentBg,
-})
+});
 
 const Grid = styled(MuiGrid)({
-  textAlign: 'center',
-})
+  textAlign: "center",
+});
 
 const FormControlLabel = styled(MuiFormControlLabel)({
-  textAlign: 'left',
-})
+  textAlign: "left",
+});
 
 class Home extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
-      email: '',
-      password: '',
-    }
+      email: "",
+      password: "",
+    };
   }
   handleSubmit = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
 
-    const { email, password } = this.state
+    const { email, password } = this.state;
 
     try {
       const { user } = await auth.createUserWithEmailAndPassword(
         email,
         password
-      )
+      );
 
-      await createUserProfileDocument(user)
-
-      this.setState = {
-        email: '',
-        password: '',
-      }
+      await createUserProfileDocument(user);
     } catch (error) {
-      console.log(error)
+      if (error.code === "auth/email-already-in-use") {
+        try {
+          await auth.signInWithEmailAndPassword(email, password);
+        } catch (error) {
+          console.log(error);
+        }
+      }
     }
-  }
+  };
 
   handleChange = (event) => {
-    const { name, value } = event.target
+    const { name, value } = event.target;
 
-    this.setState({ [name]: value })
-  }
+    this.setState({ [name]: value });
+  };
 
   render() {
-    const { currentUser } = this.props
-    if (currentUser) {
-      this.props.history.push('/todo')
-    }
-    const { email, password } = this.state
+    const { currentUser } = this.props;
+    const { email, password } = this.state;
     return (
       <Simple>
         <Grid item>
@@ -89,7 +89,7 @@ class Home extends React.Component {
               {currentUser && (
                 <button
                   onClick={() => {
-                    auth.signOut()
+                    auth.signOut();
                   }}
                 >
                   Sign out
@@ -160,8 +160,12 @@ class Home extends React.Component {
           />
         </Grid>
       </Simple>
-    )
+    );
   }
 }
 
-export default Home
+const mapStateToProps = (state) => ({
+  currentUser: state.user.currentUser,
+});
+
+export default connect(mapStateToProps)(Home);
