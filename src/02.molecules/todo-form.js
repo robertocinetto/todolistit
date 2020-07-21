@@ -6,6 +6,9 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import Autocomplete, {
+  createFilterOptions,
+} from "@material-ui/lab/Autocomplete";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -15,6 +18,8 @@ import DialogContent from "@material-ui/core/DialogContent";
 import { createTodoDocument } from "../firebase/firebase.utils";
 
 import { setNewTodoModalOpen } from "../redux/todo/todo.actions";
+
+const filter = createFilterOptions();
 
 const FormWrapper = styled.form`
   > * {
@@ -27,13 +32,21 @@ const TodoForm = (props) => {
   const [body, setBody] = useState("");
   const [category, setCategory] = useState("default");
 
-  const categoriesSelect = props.categoriesList.map((category, index) => {
-    return (
-      <MenuItem key={index.toString()} value={category}>
-        {category}
-      </MenuItem>
-    );
+  const [value, setValue] = React.useState(null);
+
+  // const categoriesSelect = props.categoriesList.map((category, index) => {
+  //   return (
+  //     <MenuItem key={index.toString()} value={category}>
+  //       {category}
+  //     </MenuItem>
+  //   );
+  // });
+
+  const categoriesSelect = props.categoriesList.map((category) => {
+    return { title: category };
   });
+
+  console.log(categoriesSelect);
 
   async function handleAddTodo(event) {
     event.preventDefault();
@@ -80,7 +93,7 @@ const TodoForm = (props) => {
             autoComplete="off"
           />
           <FormControl>
-            <InputLabel id="demo-simple-select-label">Category</InputLabel>
+            {/* <InputLabel id="demo-simple-select-label">Category</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
@@ -88,7 +101,56 @@ const TodoForm = (props) => {
               onChange={handleSelectChange}
             >
               {categoriesSelect}
-            </Select>
+            </Select> */}
+            <Autocomplete
+              value={category}
+              onChange={(event, newValue) => {
+                if (typeof newValue === "string") {
+                  setCategory(newValue);
+                } else if (newValue && newValue.inputValue) {
+                  // Create a new value from the user input
+                  setCategory(newValue.inputValue);
+                } else {
+                  setCategory(newValue);
+                }
+              }}
+              filterOptions={(options, params) => {
+                const filtered = filter(options, params);
+
+                // Suggest the creation of a new value
+                if (params.inputValue !== "") {
+                  filtered.push({
+                    inputValue: params.inputValue,
+                    title: `Add "${params.inputValue}"`,
+                  });
+                }
+
+                return filtered;
+              }}
+              selectOnFocus
+              clearOnBlur
+              handleHomeEndKeys
+              id="free-solo-with-text-demo"
+              options={categoriesSelect}
+              getOptionLabel={(option) => {
+                // Value selected with enter, right from the input
+                if (typeof option === "string") {
+                  return option;
+                }
+                // Add "xxx" option created dynamically
+                if (option.inputValue) {
+                  return option.inputValue;
+                }
+                // Regular option
+                return option.title;
+              }}
+              renderOption={(option) => option.title}
+              style={{ width: "100%" }}
+              freeSolo
+              renderInput={(params) => (
+                <TextField {...params} label="Category" />
+              )}
+            />
           </FormControl>
           <Button variant="contained" color="primary" type="submit">
             Add
@@ -110,3 +172,8 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoForm);
+
+const top100Films = [
+  { title: "The Shawshank Redemption", year: 1994 },
+  { title: "The Godfather", year: 1972 },
+];
