@@ -38,8 +38,6 @@ class App extends React.Component {
         setCurrentUserInState(userAuth);
       }
     });
-
-    console.log(this.props);
   }
 
   componentWillUnmount() {

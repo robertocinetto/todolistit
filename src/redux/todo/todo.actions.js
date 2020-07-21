@@ -16,7 +16,6 @@ export const setCategoriesList = (categoriesList) => ({
 });
 
 export const setNewTodoModalOpen = (open) => {
-  console.log("ciao");
   return {
     type: TodoActionTypes.SET_NEW_TODO_MODAL_OPEN,
     payload: open,

@@ -69,6 +69,19 @@ export const createTodoDocument = async (
   return todoRef;
 };
 
+export const deleteTodoDocument = async (id) => {
+  const todoRef = firestore.collection(`todos`).doc(id);
+
+  const snapshot = await todoRef.get();
+  if (snapshot.exists) {
+    try {
+      await todoRef.delete();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+};
+
 export const convertTodosSnapshotToMap = (todos) => {
   const trasformedTodos = todos.docs.map((doc) => {
     const { done, body, category } = doc.data();

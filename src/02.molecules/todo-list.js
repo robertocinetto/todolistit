@@ -4,8 +4,12 @@ import { connect } from "react-redux";
 
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import MuiHighlightOffIcon from "@material-ui/icons/HighlightOff";
 
-import { checkTodoDocument } from "../firebase/firebase.utils";
+import {
+  checkTodoDocument,
+  deleteTodoDocument,
+} from "../firebase/firebase.utils";
 
 const TodoListWrapper = styled.ul`
   list-style: none;
@@ -17,10 +21,18 @@ const TodoElement = styled.li`
   padding: 0 9px;
   margin-bottom: 10px;
   cursor: pointer;
+  position: relative;
 
   &.done {
     background-color: #383838;
   }
+`;
+
+const HighlightOffIcon = styled(MuiHighlightOffIcon)`
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  z-index: 9999;
 `;
 
 const TodoList = (props) => {
@@ -42,6 +54,7 @@ const TodoList = (props) => {
           }
           label={todo.body}
         />
+        <HighlightOffIcon onClick={(event) => deleteTodo(event, todo.id)} />
       </TodoElement>
     );
   });
@@ -68,9 +81,15 @@ const TodoList = (props) => {
           }
           label={todo.body}
         />
+        <HighlightOffIcon onClick={(event) => deleteTodo(event, todo.id)} />
       </TodoElement>
     );
   });
+
+  async function deleteTodo(event, id) {
+    event.stopPropagation();
+    deleteTodoDocument(id);
+  }
 
   async function handleCheck(id) {
     checkTodoDocument(id);

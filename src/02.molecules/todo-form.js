@@ -5,7 +5,6 @@ import styled from "styled-components";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
 import Autocomplete, {
   createFilterOptions,
 } from "@material-ui/lab/Autocomplete";
@@ -32,21 +31,9 @@ const TodoForm = (props) => {
   const [body, setBody] = useState("");
   const [category, setCategory] = useState("default");
 
-  const [value, setValue] = React.useState(null);
-
-  // const categoriesSelect = props.categoriesList.map((category, index) => {
-  //   return (
-  //     <MenuItem key={index.toString()} value={category}>
-  //       {category}
-  //     </MenuItem>
-  //   );
-  // });
-
   const categoriesSelect = props.categoriesList.map((category) => {
     return { title: category };
   });
-
-  console.log(categoriesSelect);
 
   async function handleAddTodo(event) {
     event.preventDefault();
@@ -93,15 +80,6 @@ const TodoForm = (props) => {
             autoComplete="off"
           />
           <FormControl>
-            {/* <InputLabel id="demo-simple-select-label">Category</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={category}
-              onChange={handleSelectChange}
-            >
-              {categoriesSelect}
-            </Select> */}
             <Autocomplete
               value={category}
               onChange={(event, newValue) => {
