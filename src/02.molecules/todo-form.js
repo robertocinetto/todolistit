@@ -35,9 +35,10 @@ const TodoForm = (props) => {
     return { title: category };
   });
 
+  console.log(categoriesSelect);
+
   async function handleAddTodo(event) {
     event.preventDefault();
-
     try {
       await createTodoDocument(done, body, category, props.currentUser);
 
@@ -84,7 +85,9 @@ const TodoForm = (props) => {
               value={category}
               onChange={(event, newValue) => {
                 if (typeof newValue === "string") {
-                  setCategory(newValue);
+                  setCategory({
+                    title: newValue,
+                  });
                 } else if (newValue && newValue.inputValue) {
                   // Create a new value from the user input
                   setCategory(newValue.inputValue);

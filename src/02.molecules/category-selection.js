@@ -38,7 +38,7 @@ const CategorySelection = (props) => {
     }
   );
 
-  (async () => await props.setCategoriesList([...new Set(mixedCategories)]))();
+  // (async () => await props.setCategoriesList([...new Set(mixedCategories)]))();
 
   return (
     <Card variant="outlined">

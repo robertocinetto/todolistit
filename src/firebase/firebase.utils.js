@@ -53,6 +53,7 @@ export const createTodoDocument = async (
     const createdAt = new Date();
 
     try {
+      // console.log(category);
       await todoRef.set({
         done,
         body,
