@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
@@ -14,6 +14,11 @@ import {
 } from "../redux/todo/todo.actions";
 
 const CategorySelection = (props) => {
+
+  useEffect(() => {
+    props.setCategoriesList([...new Set(mixedCategories)]);
+  })
+
   async function handleChange(event) {
     await props.setSelectedCategory(event.target.value);
   }
@@ -25,7 +30,12 @@ const CategorySelection = (props) => {
     mixedCategories.push(props.todos[key].category);
   }
 
-  let uniqueCategories = [...new Set(mixedCategories)].map(
+  let uniqueCategories = [...new Set(mixedCategories)];
+  console.log(uniqueCategories.indexOf("default"))
+
+  // mixedCategories.splice([...new Set(mixedCategories)].indexOf("default"))
+
+  let uniqueCategoriesElements = uniqueCategories.map(
     (category, index) => {
       return (
         <FormControlLabel
@@ -38,7 +48,6 @@ const CategorySelection = (props) => {
     }
   );
 
-  // (async () => await props.setCategoriesList([...new Set(mixedCategories)]))();
 
   return (
     <Card variant="outlined">
@@ -50,7 +59,7 @@ const CategorySelection = (props) => {
           value={props.categorySelected}
           onChange={handleChange}
         >
-          {uniqueCategories}
+          {uniqueCategoriesElements}
         </RadioGroup>
       </CardContent>
     </Card>

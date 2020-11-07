@@ -17,7 +17,7 @@ import Button from "@material-ui/core/Button";
 import MuiFormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Typography from "@material-ui/core/Typography";
-import Switch from "@material-ui/core/Switch";
+// import Switch from "@material-ui/core/Switch";
 
 import { ReactComponent as Logo } from "../00.assets/logo.svg";
 
@@ -147,10 +147,10 @@ class Home extends React.Component {
               </form>
             </CardContent>
           </Card>
-          <FormControlLabel
+          {/* <FormControlLabel
             control={<Switch name="checkedB" color="primary" />}
             label="Primary"
-          />
+          /> */}
         </Grid>
       </Simple>
     );

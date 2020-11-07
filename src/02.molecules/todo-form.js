@@ -4,11 +4,11 @@ import styled from "styled-components";
 
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import Select from "@material-ui/core/Select";
+// import Select from "@material-ui/core/Select";
 import Autocomplete, {
   createFilterOptions,
 } from "@material-ui/lab/Autocomplete";
-import InputLabel from "@material-ui/core/InputLabel";
+// import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
@@ -35,7 +35,7 @@ const TodoForm = (props) => {
     return { title: category };
   });
 
-  console.log(categoriesSelect);
+  console.log(props.categoriesList);
 
   async function handleAddTodo(event) {
     event.preventDefault();
@@ -53,9 +53,9 @@ const TodoForm = (props) => {
     setBody(event.target.value);
   }
 
-  async function handleSelectChange(event) {
-    setCategory(event.target.value);
-  }
+  // async function handleSelectChange(event) {
+  //   setCategory(event.target.value);
+  // }
 
   async function handleOpenCloseModal() {
     props.setNewTodoModalOpen(!props.modalStatus);
@@ -153,8 +153,3 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoForm);
-
-const top100Films = [
-  { title: "The Shawshank Redemption", year: 1994 },
-  { title: "The Godfather", year: 1972 },
-];
