@@ -128,6 +128,7 @@ const TodoForm = (props) => {
               renderOption={(option) => option.title}
               style={{ width: "100%" }}
               freeSolo
+              autoHighlight
               renderInput={(params) => (
                 <TextField {...params} label="Category" />
               )}
