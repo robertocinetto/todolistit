@@ -6,10 +6,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import MuiHighlightOffIcon from "@material-ui/icons/HighlightOff";
 
-import {
-  checkTodoDocument,
-  deleteTodoDocument,
-} from "../firebase/firebase.utils";
+import { checkTodoDocument, deleteTodoDocument } from "../firebase/firebase.utils";
 
 const TodoListWrapper = styled.ul`
   list-style: none;
@@ -32,26 +29,17 @@ const HighlightOffIcon = styled(MuiHighlightOffIcon)`
   position: absolute;
   right: 10px;
   top: 10px;
-  z-index: 9999;
+  z-index: 999;
 `;
 
 const TodoList = (props) => {
-  let todoListFilteredUndone = props.todos
-    .filter((todo) => todo.category === props.categorySelected)
-    .filter((todo) => todo.done === false);
+  let todoListFilteredUndone = props.todos.filter((todo) => todo.category === props.categorySelected).filter((todo) => todo.done === false);
 
   todoListFilteredUndone = todoListFilteredUndone.map((todo, index) => {
     return (
       <TodoElement key={todo.id} onClick={() => handleCheck(todo.id)}>
         <FormControlLabel
-          control={
-            <Checkbox
-              checked={todo.done}
-              onChange={() => handleCheck(todo.id)}
-              name={todo.id}
-              color="primary"
-            />
-          }
+          control={<Checkbox checked={todo.done} onChange={() => handleCheck(todo.id)} name={todo.id} color="primary" />}
           label={todo.body}
         />
         <HighlightOffIcon onClick={(event) => deleteTodo(event, todo.id)} />
@@ -59,26 +47,13 @@ const TodoList = (props) => {
     );
   });
 
-  let todoListFilteredDone = props.todos
-    .filter((todo) => todo.category === props.categorySelected)
-    .filter((todo) => todo.done === true);
+  let todoListFilteredDone = props.todos.filter((todo) => todo.category === props.categorySelected).filter((todo) => todo.done === true);
 
   todoListFilteredDone = todoListFilteredDone.map((todo, index) => {
     return (
-      <TodoElement
-        key={todo.id}
-        onClick={() => handleCheck(todo.id)}
-        className="done"
-      >
+      <TodoElement key={todo.id} onClick={() => handleCheck(todo.id)} className="done">
         <FormControlLabel
-          control={
-            <Checkbox
-              checked={todo.done}
-              onChange={() => handleCheck(todo.id)}
-              name={todo.id}
-              color="primary"
-            />
-          }
+          control={<Checkbox checked={todo.done} onChange={() => handleCheck(todo.id)} name={todo.id} color="primary" />}
           label={todo.body}
         />
         <HighlightOffIcon onClick={(event) => deleteTodo(event, todo.id)} />

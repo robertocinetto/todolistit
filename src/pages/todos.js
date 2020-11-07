@@ -24,19 +24,17 @@ const CardContent = styled(MuiCardContent)`
 `;
 
 const Fab = styled(MuiFab)`
-  position: absolute;
+  position: fixed;
   bottom: 20px;
   right: 20px;
+  z-index: 9999;
 `;
 
 const Todos = (props) => {
   let unsubscribeFromSnapshot = null;
 
   useEffect(() => {
-    const collectionRef = firestore
-      .collection("todos")
-      .where("currentUser.email", "==", `${props.currentUser.email}`)
-      .orderBy("createdAt");
+    const collectionRef = firestore.collection("todos").where("currentUser.email", "==", `${props.currentUser.email}`).orderBy("createdAt");
 
     unsubscribeFromSnapshot = collectionRef.onSnapshot(async (snapshot) => {
       let todos = snapshot.docs.map((doc) => {
@@ -72,11 +70,7 @@ const Todos = (props) => {
           <Card variant="outlined">
             <CardContent>
               <Typography variant="h3">Todos</Typography>
-              <Fab
-                color="primary"
-                aria-label="add"
-                onClick={handleOpenCloseModal}
-              >
+              <Fab color="primary" aria-label="add" onClick={handleOpenCloseModal}>
                 <AddIcon />
               </Fab>
               <TodoList />
